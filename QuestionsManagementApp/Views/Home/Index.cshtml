@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+
+
+@*<div class="text-center jumbotron">
+    <h1 class="display-4">Welcome to Questions Management App</h1>
+    <p>
+        Submit All your Questions Related to our Services here <br />
+        and our Managers will respond them Quickly as soon as possible.
+    </p>
+    <a class="btn btn-outline-success" asp-action="Create">Submit New Question</a>
+</div>*@
+
+<style>
+    .card-img {
+        opacity: 0.5;
+    }
+</style>
+
+
+<div class="card bg-dark text-white">
+    @if (User.IsInRole("Supervisor"))
+    {
+        <span class="badge badge-success" style="float:right;">&bull; Supervisor Account</span>
+    }
+    else if (User.IsInRole("Manager"))
+    {
+        <span class="badge badge-danger" style="float:right;">&bull; Manager Account</span>
+    }
+    else if (User.IsInRole("Technician"))
+    {
+        <span class="badge badge-danger" style="float:right;">&bull; Technician Account</span>
+    }
+    <img style="height:350px;" src="~/images/MainPagePic.png" class="card-img" alt="...">
+    <div class="card-img-overlay">
+        <h1 class="display-4" style="margin-top:50px"><b>Welcome to Brand New<br />Questions Management Website</b></h1>
+        <p class="card-text">
+            Submit All your Questions Related to our Services here <br />
+            and our Managers will respond them Quickly as soon as possible.
+        </p>
+        <a class="btn btn-success" asp-action="Create">Submit New Question</a>
+        <a href="/Home/HelpView" class="btn btn-outline-info">Learn more >></a>
+    </div>
+</div>
+<br />
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card bg-dark text-white">
+            <img src="~/images/CardDisplay.png" class="card-img" alt="...">
+            <div class="card-img-overlay text-center">
+                <h3 class="card-title">Professional Interface</h3>
+                <p class="card-text">
+                    Here you can Provide some Attractive Details
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-dark text-white">
+            <img src="~/images/CardDisplay.png" class="card-img" alt="...">
+            <div class="card-img-overlay text-center">
+                <h3 class="card-title">Free Registration</h3>
+                <p class="card-text">
+                    This website is free of Cost for Everyone. Register yourself without any Cost and Start ask Questioning to your Departments <b>Right Now!</b>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-dark text-white">
+            <img src="~/images/CardDisplay.png" class="card-img" alt="...">
+            <div class="card-img-overlay text-center">
+                <h3 class="card-title">Unlimited Questions</h3>
+                <p class="card-text">
+                    The biggest advantage of using this website is you can post unlimited questions here.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+﻿@model  IEnumerable<QuestionsManagementApp.Models.ApplicationUser> 
+@using QuestionsManagementApp.Data;
+@{
+    ViewBag.Title = "Users List";
+}
+
+<h2>Users List</h2>
+<center><h4 style="color:#205fb6">All Users of this Website.</h4></center>
+
+<hr />
+<a href="/Account/Register" class="btn btn-danger">New User</a>
+<span class="text-danger" style="margin-left:10px;" id="Userscount">Users Found : </span>
+
+<table style="margin-top:10px;" class="table table-hover table-striped table-responsive">
+    <tr>
+        <th>
+            E-mail
+        </th>
+        <th>
+            Phone No
+        </th>
+        <th>
+            Roles
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @*@using (ApplicationDbContext db = new ApplicationDbContext(null))
+                {
+                    var roles = db.UserRoles.Where(a => a.UserId == item.Id).ToList();
+                    for (int i = 0; i < roles.Count(); i++)
+                    {
+                        if (i == 1)
+                        {
+                            <button style="margin-top:2px" class="btn btn-xs">@db.Roles.Where(a => a.Id == roles[i].RoleId).FirstOrDefault().Name</button><br />
+                        }
+                        else
+                        {
+                            <button class="btn btn-xs">@db.Roles.Where(a => a.Id == roles[i].RoleId).FirstOrDefault().Name</button><br />
+                        }
+                    }
+                }*@
+            </td>
+            <td>
+                <a onclick="UserDeleter(this.id)" id="@item.Id" title="Delete User" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+<script>
+    $(document).ready(function () {
+        $("#Userscount").text("Users Found : " + '@Model.Count()');
+    });
+    function UserDeleter(userid) {
+        if (confirm("Do you want to Delete this User?")) {
+            $.post("/Users/UserDeleter", { id: userid }, function () {
+                window.location = "/Account/UserList";
+            });
+        }
+    }
+</script>
+

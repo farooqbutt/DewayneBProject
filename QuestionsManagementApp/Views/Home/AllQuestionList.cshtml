@@ -1,0 +1,158 @@
+﻿
+@model IEnumerable<QuestionsManagementApp.Models.Questions>
+
+@{
+    ViewData["Title"] = "All Question";
+}
+
+<h1>List of All Questions</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-warning">Submit New Question</a>
+    <span>Total Questions : @Model.ToList().Count()</span>
+    <span style="float:right">Answered Questions : @Model.ToList().Where(a => a.AnswertoQuestion != "").Count()</span>
+</p>
+
+<p>
+    <div class="row">
+        <div class="col-md-2" style="padding: 0px 2px 0px 0px;margin-left:15px;">
+            <select class="form-control" asp-items="ViewBag.types" id="QType">
+                <option value="" selected>Select Question Type</option>
+            </select>
+        </div>
+        <div class="col-md-2" style="padding: 0px 2px 0px 0px">
+            <select class="form-control" id="QStatus" asp-items="ViewBag.Status">
+                <option value="" selected>Select Question Status</option>
+            </select>
+        </div>
+        <div class="col-md-2" style="padding: 0px 2px 0px 0px">
+            <input class="form-control" id="email" value="@ViewBag.email" placeholder="Search by Email"/>
+        </div>
+        <div class="col-md-2" style="padding: 12px 2px 0px 0px">
+            <button onclick="FilterQuestions()" class="badge badge-success">Search</button>
+        </div>
+        <div class="col-md-4" style="margin-left: -15px;">
+            <a class="btn btn-sm btn-success" style="float:right" href="/Home/AllQuestionList" title="Load All Questions">Load All</a>
+            @if (User.IsInRole("Supervisor"))
+            {
+                if (Model.ToList().Count() != 0)
+                {
+                    <button onclick="ExportToExcel()" style="float:right;margin-right:5px" 
+                            class="btn btn-sm btn-outline-info" 
+                            title="Export All Question to Excel">Export Questions</button>
+                }
+            }
+        </div>
+    </div>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Case No.
+            </th>
+            <th>
+                Member Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Urgent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                Submit Date
+            </th>
+            <th>
+                Asked By
+            </th>
+            <th>
+                Answer By
+            </th>
+            <th>
+                Question Type
+            </th>
+            <th>
+                Department
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CaseNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemberName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Urgent)
+                </td>
+                <td style="white-space:initial" title="Add Answer to This Question">
+                    @if (item.Description.Length > 50)
+                    {
+                        @item.Description.Substring(0, 50)<a href="/Home/AddAnswer/@item.Id" title="Answer this Question.
+                           Full Description: @item.Description">...see more</a>
+                    }
+                    else
+                    {
+                        <a href="/Home/AddAnswer/@item.Id" title="Answer this Question">@item.Description</a>
+                    }
+                </td>
+                <td>
+                    @Convert.ToDateTime(item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Askedby)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Answeredby)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuestionType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuestionDepartment.DepartmentName)
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-danger" onclick="DeleteQuestion('@item.Id')" title="Delete this Question">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    function ExportToExcel() {
+        if (confirm("Are you sure to Export these question to Excel File?")) {
+            location.href = "/Home/PrintReport?Qtype=" + $("#QType").val() + "&Qstatus=" + $("#QStatus").val() + "&email=" + $("#email").val() + "";
+        }
+    }
+
+    function FilterQuestions() {
+        window.location.href = "/Home/AllQuestionList?Qtype=" + $("#QType").val() + "&Qstatus=" + $("#QStatus").val() + "&email=" + $("#email").val() + "";
+    }
+
+
+
+    function DeleteQuestion(questionid) {
+        //console.log(questionid);
+        if (confirm("Are you sure to Delete this Question?")) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/DeleteQuestion",
+                data: {
+                    QId: questionid
+                },
+                success: function () {
+                    alert('Question Deleted Successfully!\nClick on "Load All" button to see changes');
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,379 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<span id="department" class="badge badge-pill badge-success" style="float:right"></span>
+<h1>Dashboard</h1>
+<div class="row" style="margin-bottom:5px">
+    <div class="col-md-9">
+
+    </div>
+    <div class="col-md-3">
+       Monthly Record: <input id="MonthlyRecord" type="month" class="form-control" 
+               style="float:right" title="For Seeing Monthly Statics" onchange="MonthlyRecord()" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card border-dark mb-3">
+            <div class="card-body">
+                <h4 class="card-title">Total Questions</h4>
+                <h2 class="card-text" id="totalQuestions"></h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-dark mb-3">
+            <div class="card-body">
+                <h4 class="card-title">Submitted Today</h4>
+                <h2 class="card-text" id="totalQuestionSubmitted"></h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-dark mb-3">
+            <div class="card-body">
+                <h4 class="card-title">Answered</h4>
+                <h2 class="card-text" id="Answered"></h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-dark mb-3">
+            <div class="card-body">
+                <h4 class="card-title">UnAnswered</h4>
+                <h2 class="card-text" id="UnAnswered"></h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div id="container">
+
+</div>
+
+
+<style>
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    h4 {
+        text-align: center;
+    }
+</style>
+<script src="~/js/Charts/highcharts.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+
+    function MonthlyRecord() {
+        $.post("/Home/DashboardData",{ dateTime: document.getElementById("MonthlyRecord").value}, function (data) {
+            var realdata = data.split("::");
+            //debugger
+            var ChartData = [];
+            if (realdata.length == 14) {
+                document.getElementById("totalQuestions").innerHTML = realdata[9];
+                document.getElementById("totalQuestionSubmitted").innerHTML = realdata[10];
+                document.getElementById("Answered").innerHTML = realdata[11];
+                document.getElementById("UnAnswered").innerHTML = realdata[12];
+                document.getElementById("department").innerHTML = realdata[13];
+                ChartData = [{
+                    name: 'Reassign Case',
+                    y: parseInt(realdata[0])
+                }, {
+                    name: 'Possible Reopen',
+                    y: parseInt(realdata[1]),
+                    color: '#32AE47'
+                }, {
+                    name: 'Letter Update',
+                    y: parseInt(realdata[2]),
+                    color: '#DB4D4D'
+                }, {
+                    name: 'Police Report',
+                    y: parseInt(realdata[3])
+                }, {
+                    name: 'Vaccation Ovveride',
+                    y: parseInt(realdata[4])
+                }, {
+                    name: 'Peer to Peer Request',
+                    y: parseInt(realdata[5]),
+                    color: 'rgb(67, 67, 72)'
+                }, {
+                    name: 'Cased Approved in Error',
+                    y: parseInt(realdata[6])
+                }, {
+                    name: 'Case Denied in Error',
+                    y: parseInt(realdata[7])
+                }, {
+                    name: 'Other',
+                    y: parseInt(realdata[8]),
+                    color: 'rgb(67, 67, 72)'
+                }]
+            } else if (realdata.length == 11) {
+                document.getElementById("totalQuestions").innerHTML = realdata[6];
+                document.getElementById("totalQuestionSubmitted").innerHTML = realdata[7];
+                document.getElementById("Answered").innerHTML = realdata[8];
+                document.getElementById("UnAnswered").innerHTML = realdata[9];
+                document.getElementById("department").innerHTML = realdata[10];
+                ChartData = [{
+                    name: 'Override Over Cost Limit',
+                    y: parseInt(realdata[0])
+                }, {
+                    name: 'Peer to Peer Request',
+                    y: parseInt(realdata[1]),
+                    color: '#32AE47'
+                }, {
+                    name: 'Request for Rework',
+                    y: parseInt(realdata[2]),
+                    color: '#DB4D4D'
+                }, {
+                    name: 'Approval Date Error',
+                    y: parseInt(realdata[3])
+                }, {
+                    name: 'Lost Medication',
+                    y: parseInt(realdata[4])
+                }, {
+                    name: 'Vacation Override',
+                    y: parseInt(realdata[5]),
+                    color: 'rgb(67, 67, 72)'
+                }]
+            } else {
+                document.getElementById("totalQuestions").innerHTML = realdata[5];
+                document.getElementById("totalQuestionSubmitted").innerHTML = realdata[6];
+                document.getElementById("Answered").innerHTML = realdata[7];
+                document.getElementById("UnAnswered").innerHTML = realdata[8];
+                document.getElementById("department").innerHTML = realdata[9];
+                ChartData = [{
+                    name: 'J-Code Update',
+                    y: parseInt(realdata[0])
+                }, {
+                    name: 'S-Code Update',
+                    y: parseInt(realdata[1]),
+                    color: '#32AE47'
+                }, {
+                    name: 'Nebulizer Solution',
+                    y: parseInt(realdata[2]),
+                    color: '#DB4D4D'
+                }, {
+                    name: 'Medical Procedure',
+                    y: parseInt(realdata[3])
+                }, {
+                    name: 'Other',
+                    y: parseInt(realdata[4])
+                }]
+            }
+
+            /////////The data for HighChart Detailings
+
+            Highcharts.chart('container', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: null,
+                    type: 'pie'
+                },
+                legend: {
+                    align: 'right',
+                    layout: 'vertical',
+                    verticalAlign: 'middle',
+                    labelFormatter: function () {
+                        return this.name + ' - ' + this.y;
+                    }
+                },
+                title: {
+                    text: null
+                },
+                tooltip: {
+                    useHTML: true,
+                    formatter: function () {
+                        return '<div>Status : ' + this.point.name + '</div><div style="text-align:center;">Count : ' + this.point.y + '</div>';
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: Highcharts.theme && Highcharts.theme.contrastTextColor || 'black'
+                            }
+                        },
+                        showInLegend: true
+                    }
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    colorByPoint: true,
+                    allowPointSelect: true,
+
+                    data: ChartData
+                }]
+            });
+        });
+    }
+
+    $(document).ready(function () {
+        $.post("/Home/DashboardData", function (data) {
+            var realdata = data.split("::");
+            //debugger
+            var ChartData = [];
+            if (realdata.length == 14) {
+                document.getElementById("totalQuestions").innerHTML = realdata[9];
+                document.getElementById("totalQuestionSubmitted").innerHTML = realdata[10];
+                document.getElementById("Answered").innerHTML = realdata[11];
+                document.getElementById("UnAnswered").innerHTML = realdata[12];
+                document.getElementById("department").innerHTML = realdata[13];
+                ChartData = [{
+                    name: 'Reassign Case',
+                    y: parseInt(realdata[0])
+                }, {
+                    name: 'Possible Reopen',
+                    y: parseInt(realdata[1]),
+                    color: '#32AE47'
+                }, {
+                    name: 'Letter Update',
+                    y: parseInt(realdata[2]),
+                    color: '#DB4D4D'
+                }, {
+                    name: 'Police Report',
+                    y: parseInt(realdata[3])
+                }, {
+                    name: 'Vaccation Ovveride',
+                    y: parseInt(realdata[4])
+                }, {
+                    name: 'Peer to Peer Request',
+                    y: parseInt(realdata[5]),
+                    color: 'rgb(67, 67, 72)'
+                }, {
+                    name: 'Cased Approved in Error',
+                    y: parseInt(realdata[6])
+                }, {
+                    name: 'Case Denied in Error',
+                    y: parseInt(realdata[7])
+                }, {
+                    name: 'Other',
+                    y: parseInt(realdata[8]),
+                    color: 'rgb(67, 67, 72)'
+                }]
+            } else if (realdata.length == 11) {
+                document.getElementById("totalQuestions").innerHTML = realdata[6];
+                document.getElementById("totalQuestionSubmitted").innerHTML = realdata[7];
+                document.getElementById("Answered").innerHTML = realdata[8];
+                document.getElementById("UnAnswered").innerHTML = realdata[9];
+                document.getElementById("department").innerHTML = realdata[10];
+                ChartData = [{
+                    name: 'Override Over Cost Limit',
+                    y: parseInt(realdata[0])
+                }, {
+                    name: 'Peer to Peer Request',
+                    y: parseInt(realdata[1]),
+                    color: '#32AE47'
+                }, {
+                    name: 'Request for Rework',
+                    y: parseInt(realdata[2]),
+                    color: '#DB4D4D'
+                }, {
+                    name: 'Approval Date Error',
+                    y: parseInt(realdata[3])
+                }, {
+                    name: 'Lost Medication',
+                    y: parseInt(realdata[4])
+                }, {
+                    name: 'Vacation Override',
+                    y: parseInt(realdata[5]),
+                    color: 'rgb(67, 67, 72)'
+                }]
+            } else {
+                document.getElementById("totalQuestions").innerHTML = realdata[5];
+                document.getElementById("totalQuestionSubmitted").innerHTML = realdata[6];
+                document.getElementById("Answered").innerHTML = realdata[7];
+                document.getElementById("UnAnswered").innerHTML = realdata[8];
+                document.getElementById("department").innerHTML = realdata[9];
+                ChartData = [{
+                    name: 'J-Code Update',
+                    y: parseInt(realdata[0])
+                }, {
+                    name: 'S-Code Update',
+                    y: parseInt(realdata[1]),
+                    color: '#32AE47'
+                }, {
+                    name: 'Nebulizer Solution',
+                    y: parseInt(realdata[2]),
+                    color: '#DB4D4D'
+                }, {
+                    name: 'Medical Procedure',
+                    y: parseInt(realdata[3])
+                }, {
+                    name: 'Other',
+                    y: parseInt(realdata[4])
+                }]
+            }
+
+            /////////The data for HighChart Detailings
+
+            Highcharts.chart('container', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: null,
+                    type: 'pie'
+                },
+                legend: {
+                    align: 'right',
+                    layout: 'vertical',
+                    verticalAlign: 'middle',
+                    labelFormatter: function () {
+                        return this.name + ' - ' + this.y;
+                    }
+                },
+                title: {
+                    text: null
+                },
+                tooltip: {
+                    useHTML: true,
+                    formatter: function () {
+                        return '<div>Status : ' + this.point.name + '</div><div style="text-align:center;">Count : ' + this.point.y + '</div>';
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: Highcharts.theme && Highcharts.theme.contrastTextColor || 'black'
+                            }
+                        },
+                        showInLegend: true
+                    }
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    colorByPoint: true,
+                    allowPointSelect: true,
+
+                    data: ChartData
+                }]
+            });
+        });
+    });
+
+</script>

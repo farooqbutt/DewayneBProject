@@ -1,0 +1,213 @@
+﻿@model QuestionsManagementApp.Models.Questions
+
+@{
+    ViewData["Title"] = "AddAnswer";
+}
+
+<h1 onclick="AttachmentLoader()">Answer the Question</h1>
+
+<h4>Write Proper Answer to this Question</h4>
+<hr />
+
+@if (User.IsInRole("Supervisor"))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="AddAnswer">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label"><b>Member Name</b></label>
+                            <input asp-for="MemberName" class="form-control" />
+                            <span asp-validation-for="MemberName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label"><b>Department</b></label>
+                            <select  asp-for="Department" class="form-control" asp-items="ViewBag.departments">
+                                <option value="" disabled>Select Department</option>
+                            </select>
+                            <span asp-validation-for="Department" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label"><b>Case No.</b></label>
+                            <input asp-for="CaseNumber" class="form-control" />
+                            <span asp-validation-for="CaseNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label"><b>Urget</b></label>
+                            @Html.DropDownListFor(x => x.Urgent, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "Select", Value=""},
+                                new SelectListItem() {Text = "Yes", Value="Yes"},
+                                new SelectListItem() {Text = "No", Value="No"}
+                            }, new { @class = "form-control" })
+                            <span asp-validation-for="Urgent" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label"><b>Question Type</b></label>
+                            <select asp-for="Type" class="form-control" asp-items="ViewBag.types"></select>
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"><b>Description</b></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label"><b>Submit Date</b></label>
+                            <input asp-for="CreatedDate" class="form-control" />
+                            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label"><b>Asked By</b></label>
+                            <input asp-for="Askedby" class="form-control" />
+                            <span asp-validation-for="Askedby" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"><b>Answer</b></label>
+                    <textarea asp-for="AnswertoQuestion" class="form-control" placeholder="Explain your Answer here...  max characters 500" rows="4"></textarea>
+                    <span asp-validation-for="AnswertoQuestion" class="text-danger"></span>
+                </div>
+                <div class="form-group" hidden>
+                    <label class="control-label"></label>
+                    <input asp-for="Answeredby" value="@User.Identity.Name" class="form-control" />
+                    <span asp-validation-for="Answeredby" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="SAVE DETAILS" class="btn btn-secondary btn-block" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="ImagePreviewDiv" style="text-align:center;display:none">
+        <img id="ImagePreview" alt="Image Preview" style="height:220px;width:400px" />
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="AddAnswer">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label class="control-label"><b>Case No.</b></label>
+                    <input readonly asp-for="CaseNumber" class="form-control" />
+                    <span asp-validation-for="CaseNumber" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label"><b>Member Name</b></label>
+                            <input readonly asp-for="MemberName" class="form-control" />
+                            <span asp-validation-for="MemberName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label"><b>Urget</b></label>
+                            @Html.DropDownListFor(x => x.Urgent, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "Select", Value=""},
+                                new SelectListItem() {Text = "Yes", Value="Yes"},
+                                new SelectListItem() {Text = "No", Value="No"}
+                            }, new { @class = "form-control", @readonly=true })
+                            <span asp-validation-for="Urgent" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label"><b>Question Type</b></label>
+                            <select asp-for="Type" class="form-control" asp-items="ViewBag.types"></select>
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"><b>Description</b></label>
+                    <textarea readonly asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label"><b>Submit Date</b></label>
+                            <input readonly asp-for="CreatedDate" class="form-control" />
+                            <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label"><b>Asked By</b></label>
+                            <input readonly asp-for="Askedby" class="form-control" />
+                            <span asp-validation-for="Askedby" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"><b>Answer</b></label>
+                    <textarea asp-for="AnswertoQuestion" class="form-control" placeholder="Explain your Answer here...  max characters 500" rows="4"></textarea>
+                    <span asp-validation-for="AnswertoQuestion" class="text-danger"></span>
+                </div>
+                <div class="form-group" hidden>
+                    <label class="control-label"></label>
+                    <input asp-for="Answeredby" value="@User.Identity.Name" class="form-control" />
+                    <span asp-validation-for="Answeredby" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="SAVE DETAILS" class="btn btn-secondary btn-block" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="ImagePreviewDiv" style="text-align:center;display:none">
+        <img id="ImagePreview" alt="Image Preview" style="height:220px;width:400px" />
+    </div>
+}
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Home/AttachmentReturner",
+            data: {
+                questionid: '@Model.Id'
+            },
+            success: function (data) {
+                if (data != "No Attachment Found") {
+                    document.getElementById("ImagePreview").src = data;
+                    document.getElementById("ImagePreviewDiv").style.display = "block";
+                }
+            }
+        })
+    });
+</script>

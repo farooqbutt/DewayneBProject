@@ -1,0 +1,82 @@
+﻿@model IEnumerable<QuestionsManagementApp.Models.Questions>
+
+@{
+    ViewData["Title"] = "MyQuestions";
+}
+
+<h1>All Questions Asked by you</h1>
+
+<p>
+    <a class="btn btn-outline-secondary" asp-action="Create">Submit New Question</a>
+    <span style="float:right">Total Questions : @Model.ToList().Count()</span>
+</p>
+<table class="table" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Case No.
+            </th>
+            <th>
+                Member Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Urgent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                Submit Date
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Askedby)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnswertoQuestion)
+            </th>*@
+            <th>
+                Answer By
+            </th>
+            <th>
+                Question Type
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaseNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Urgent)
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                @Convert.ToDateTime(item.CreatedDate)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Askedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnswertoQuestion)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Answeredby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionType.Name)
+            </td>
+            <td>
+                <a class="btn btn-sm btn-outline-info" asp-action="SeeAnswer" asp-route-id="@item.Id">See Answer</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

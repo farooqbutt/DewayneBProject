@@ -1,0 +1,122 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>
+@if (User.IsInRole("Supervisor")|| User.IsInRole("Manager"))
+{
+    <body style="background-image: url(../../images/LOLapp.png);background-size: 100% 103%;background-repeat:no-repeat">
+        <div class="row" style="
+        width: 400px;
+        margin-left: 30%;
+        opacity:0.8;
+        background-color: lightblue;
+        border-radius: 10px;
+        padding: 15px;">
+            <div class="col-md-12">
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <h4>Create a new account.</h4>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control" placeholder="e.g david@gmail.com" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Department"></label>
+                        @Html.DropDownListFor(a => a.Input.Department, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "Select User Department", Value=""},
+                                new SelectListItem() {Text = "Operations Questions", Value="1"},
+                                new SelectListItem() {Text = "Customer Service/Escalations Questions", Value="2"},
+                                new SelectListItem() {Text = "Medical/Pega Questions", Value="3"}
+                            }, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.ConfirmPassword"></label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        @Html.DropDownListFor(a => a.Input.Role, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "Select User Role", Value=""},
+                                new SelectListItem() {Text = "Supervisor", Value="Supervisor"},
+                                new SelectListItem() {Text = "Manager", Value="Manager"},
+                                new SelectListItem() {Text = "Technician", Value="Technician"}
+                            }, new { @class = "form-control" })
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary btn-block">Register</button>
+                </form>
+            </div>
+        </div>
+    </body>
+}
+else
+{
+    <body style="background-image: url(../../images/LOLapp.png);background-size: 100% 103%;background-repeat:no-repeat">
+        <div class="row" style="
+        width: 400px;
+        margin-left: 30%;
+        opacity:0.8;
+        background-color: lightblue;
+        border-radius: 10px;
+        padding: 15px;">
+            <div class="col-md-12">
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <h4>Create a new account.</h4>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control" placeholder="e.g david@gmail.com" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Department"></label>
+                        @Html.DropDownListFor(a => a.Input.Department, new List<SelectListItem>
+                            {
+                                new SelectListItem() {Text = "Select Your Department", Value=""},
+                                new SelectListItem() {Text = "Operations Questions", Value="1"},
+                                new SelectListItem() {Text = "Customer Service/Escalations Questions", Value="2"},
+                                new SelectListItem() {Text = "Medical/Pega Questions", Value="3"}
+                            }, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.ConfirmPassword"></label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary btn-block">Register</button>
+                    <br />
+                    <div class="form-group">
+                        <p>
+                            <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Have a Account? Login Now</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+}
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

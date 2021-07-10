@@ -1,0 +1,62 @@
+﻿
+
+
+@{
+    ViewData["Title"] = "All Users";
+}
+
+<h1>List of All Users</h1>
+<p>
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary">Add New User</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>User Email</th>
+            <th>User Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="UserData">
+    </tbody>
+</table>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "POST",
+            url: '/Account/UserList',
+            success: function (data) {
+                if (data.length != 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].roles == "Supervisor") {
+                            $('<tr><td>' + data[i].username + '</td><td>' + data[i].roles + '</td><td><button onclick=DeleteUser("' + data[i].username + '"); class="btn btn-sm btn-danger" title="Supervisor Will not be Deleted" disabled>Delete</button></td></tr> ').prependTo('#UserData');
+                        } else {
+                            $('<tr><td>' + data[i].username + '</td><td>' + data[i].roles + '</td><td><button onclick=DeleteUser("' + data[i].username + '"); class="btn btn-sm btn-danger" title="Delete this User">Delete</button></td></tr> ').prependTo('#UserData');
+                        }
+                    }
+                } else {
+                    $('<tr>No Data Found</tr>').prependTo('#UserData');
+                }
+            }
+        })
+    });
+
+    function DeleteUser(email) {
+        if (confirm('Do you realy Want to Delete this User?')) {
+            $.ajax({
+                type: "POST",
+                url: "/Account/DeleteUser",
+                data: {
+                    email: email
+                },
+                success: function (data) {
+                    alert(data.message);
+                    window.location = "/Account/Index";
+                }
+            })
+        }
+    }
+</script>

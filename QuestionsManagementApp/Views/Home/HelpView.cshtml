@@ -1,0 +1,208 @@
+﻿@{
+    ViewData["Title"] = "Help Center";
+}
+<style>
+    img{
+        cursor:pointer;
+    }
+</style>
+<div>
+    <h1>About This Website</h1>
+    <p>
+        This is used for reporting question or quries related to your departments or confusions which you have in your work, and Our Supervisors
+        and Managers will Answer those questions and provide you some proper solutions
+    </p>
+    @if (User.IsInRole("Technician"))
+    {
+        <h2>Frequently Asked Questions</h2><hr />
+        <h5>How to report or submit Questions here?</h5>
+        <p>Go to "Home" page of this website, where you can see Submit button for Submitting Question related to your Concerns. Like below Image.</p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture8.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+        <p>The second way for Submitting Questions is go to "Quesitons" Tab where you can see the Submit Question Button for submitting questions. Like below Image.</p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture9.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture8.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+        <hr />
+    }
+
+
+    @if (User.IsInRole("Supervisor"))
+    {
+        <h2>Frequently Asked Questions</h2><hr />
+        <h5>How to report or submit Questions here?</h5>
+        <p>Go to "Home" page of this website, where you can see Submit button for Submitting Question related to your Concerns. Like below Image.</p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture8.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+        <p>The second way for Submitting Questions is go to "Quesitons" Tab where you can see the Submit Question Button for submitting questions. Like below Image.</p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture2.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture8.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+        <hr />
+        <h5>How to Answer any query or Questions?</h5>
+        <p>
+            Go to "Questions" Tab where you can see the list of All Question. In "Description" Column Data contains as Hyperlink Text.
+            Click on this Text Link and you will go to Question Details Page. Like below Images. "Supervisor Account" have access to Change Full Details of Questions.
+        </p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture3.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture4.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+        <hr />
+        <h5>How to Add New Users in this Website?</h5>
+        <p>
+            Go to "Users" Tab where you can see a list of All Users Present in this website. Here you will also see a button
+            "Add New User" Click on it and you will go to another Page like below images. Here you have to provide Details for New User.
+        </p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture6.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture7.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+        <hr />
+        <h5>How to Delete any Question from Website?</h5>
+        <p>
+            Go to "Questions" Tab where you can see a list of All Questions Present in this website. Here you will also see a button
+            "Delete" with every question. Click on it and Confirm to Delete the Question. See below images.
+        </p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture10.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture11.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+    }
+    @if (User.IsInRole("Manager"))
+    {
+        <h2>Frequently Asked Questions</h2><hr />
+        <h5>How to report or submit Questions here?</h5>
+        <p>Go to "Home" page of this website, where you can see Submit button for Submitting Question related to your Concerns. Like below Image.</p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture8.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+        <p>The second way for Submitting Questions is go to "Quesitons" Tab where you can see the Submit Question Button for submitting questions. Like below Image.</p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture2.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture8.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+        <hr />
+        <h5>How to Answer any query or Questions?</h5>
+        <p>
+            Go to "Questions" Tab where you can see the list of All Question. In "Description" Column Data contains as Hyperlink Text.
+            Click on this Text Link and you will go to Question Details Page. Like below Images. "Manager Account" have access to Add or Change Just Answer of Questions.
+        </p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture3.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture5.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+        <hr />
+        <h5>How to Add New Users in this Website?</h5>
+        <p>
+            Go to "Users" Tab where you can see a list of All Users Present in this website. Here you will also see a button
+            "Add New User" Click on it and you will go to another Page like below images. Here you have to provide Details for New User.
+        </p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture6.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture7.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+        <hr />
+        <h5>How to Delete any Question from Website?</h5>
+        <p>
+            Go to "Questions" Tab where you can see a list of All Questions Present in this website. Here you will also see a button
+            "Delete" with every question. Click on it and Confirm to Delete the Question. See below images.
+        </p>
+        <div class="row">
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture10.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+            <div class="col-md-5" style="text-align:center">
+                <img onclick="ShowImage(this.src)" alt="Image" src="~/images/Capture11.png" style="width:500px;height:200px" title="Click to View Full Sized Image" />
+            </div>
+        </div>
+    }
+
+    <hr />
+
+
+</div>
+
+
+
+@* For Showing Pictures or images in modal popup *@
+<button hidden id="modalbtn" type="button" data-toggle="modal" data-target="#ImageShowModal">Open Modal</button>
+<div class="modal fade" id="ImageShowModal" role="dialog">
+    <div class="modal-dialog" style="text-align:center;margin-left:16%">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="width:250%">
+            <div class="modal-header">
+                <h4 class="modal-title">Full Sized Image</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img alt="Image" id="ModalImage" style="height:650px; width:800px" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    function ShowImage(src) {
+        document.getElementById("ModalImage").src = src;
+        //$("#ImageShowModal").modal('show')
+        $("#modalbtn").click();
+    }
+</script>
